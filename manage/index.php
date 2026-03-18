@@ -115,10 +115,6 @@ if ($parent === '.') $parent = '';
 
 <hr>
 
-<p>📤 You can select multiple images (Ctrl / Shift)</p>
-
-<hr>
-
 <!-- FOLDERS FIRST -->
 <?php foreach ($folders as $folder): 
     $rel = ($currentDir ? $currentDir . '/' : '') . $folder;
