@@ -60,6 +60,22 @@ a { color:#0af; text-decoration:none; }
 form { display:inline; margin-left:10px; }
 input { background:#222; color:#fff; border:1px solid #444; }
 button { cursor:pointer; }
+
+#preview {
+    position: fixed;
+    display: none;
+    pointer-events: none;
+    border: 1px solid #444;
+    background: #000;
+    padding: 5px;
+    z-index: 9999;
+}
+
+#preview img {
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+}
 </style>
 </head>
 
@@ -68,7 +84,13 @@ button { cursor:pointer; }
 <h2>📂 /uploads/<?php echo $currentDir ?: 'root'; ?></h2>
 
 <?php if ($currentDir): ?>
-<a href="?dir=<?php echo urlencode(dirname($currentDir)); ?>">⬅ Back</a>
+<!-- <a href="?dir=<?php // echo urlencode(dirname($currentDir)); ?>">⬅ Back</a> -->
+<?php
+$parent = dirname($currentDir);
+if ($parent === '.') $parent = '';
+?>
+
+<a href="<?php echo $parent ? '?dir=' . urlencode($parent) : 'index.php'; ?>">⬅ Back</a>
 <?php endif; ?>
 
 <hr>
@@ -123,7 +145,16 @@ button { cursor:pointer; }
 ?>
 <div class="item">
    <!-- 🖼  --> <?php // echo $file['name']; ?>
-🖼 <a href="../uploads/<?php echo ($currentDir ? $currentDir . '/' : '') . $file['name']; ?>" target="_blank">
+<!-- 🖼 <a href="../uploads/<?php echo ($currentDir ? $currentDir . '/' : '') . $file['name']; ?>" target="_blank">
+    <?php echo $file['name']; ?>
+</a> -->
+<!-- Added pop up view on hover of image link -->
+<?php $imgPath = "../uploads/" . ($currentDir ? $currentDir . '/' : '') . $file['name']; ?>
+
+🖼 <a href="<?php echo $imgPath; ?>" target="_blank"
+    onmouseover="showPreview(event, '<?php echo $imgPath; ?>')"
+    onmousemove="movePreview(event)"
+    onmouseout="hidePreview()">
     <?php echo $file['name']; ?>
 </a>
     <!-- rename -->
@@ -143,6 +174,27 @@ button { cursor:pointer; }
 </div>
 <?php endforeach; ?>
 
+
+<div id="preview"></div>
+
+<script>
+var preview = document.getElementById('preview');
+
+function showPreview(e, src) {
+    preview.innerHTML = '<img src="' + src + '">';
+    preview.style.display = 'block';
+    movePreview(e);
+}
+
+function movePreview(e) {
+    preview.style.left = (e.clientX + 15) + 'px';
+    preview.style.top = (e.clientY + 15) + 'px';
+}
+
+function hidePreview() {
+    preview.style.display = 'none';
+}
+</script>
 </body>
 </html>
 
