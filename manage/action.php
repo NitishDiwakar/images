@@ -1,4 +1,10 @@
 <?php
+# Author  : Nitish Kumar Diwakar
+# Email   : nitishkumardiwakar@gmail.com
+# Github  : https://github.com/NitishDiwakar
+# Project : Image Manager
+# Licence : MIT
+
 $baseDir = realpath(__DIR__ . '/../uploads');
 
 $action = $_POST['action'] ?? '';

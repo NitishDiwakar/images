@@ -1,3 +1,9 @@
+// Author  : Nitish Kumar Diwakar
+// Email   : nitishkumardiwakar@gmail.com
+// Github  : https://github.com/NitishDiwakar
+// Project : Image Manager
+// Licence : MIT
+
 var loaded = 0;
 var batch = 20;
 

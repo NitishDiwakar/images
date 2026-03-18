@@ -1,4 +1,10 @@
 <?php
+# Author  : Nitish Kumar Diwakar
+# Email   : nitishkumardiwakar@gmail.com
+# Github  : https://github.com/NitishDiwakar
+# Project : Image Manager
+# Licence : MIT
+
 $baseDir = __DIR__ . '/uploads';
 $urlBase = 'uploads';
 
