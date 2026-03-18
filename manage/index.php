@@ -16,8 +16,12 @@ $items = scandir($dirPath);
 $folders = [];
 $files = [];
 
+// foreach ($items as $item) {
+//     if ($item === '.' || $item === '..') continue;
+
 foreach ($items as $item) {
-    if ($item === '.' || $item === '..') continue;
+    if ($item === '.' || $item === '..' || $item[0] === '.') continue;
+
 
     $full = $dirPath . '/' . $item;
 
