@@ -15,7 +15,12 @@ $dir = str_replace(['\\', '..'], ['/', ''], $dir);
 
 /* build full path safely */
 $targetDir = $baseDir . ($dir ? DIRECTORY_SEPARATOR . $dir : '');
-
+// 
+echo "DIR: [" . $dir . "]<br>";
+echo "TARGET: [" . $targetDir . "]<br>";
+echo "REAL: [" . realpath($targetDir) . "]<br>";
+exit;
+// 
 /* resolve real path */
 $realTarget = realpath($targetDir);
 
