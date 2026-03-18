@@ -7,7 +7,8 @@
 
 $baseDir = realpath(__DIR__ . '/../uploads');
 
-$dir = $_POST['dir'] ?? '';
+// $dir = $_POST['dir'] ?? '';
+$dir = urldecode($_POST['dir'] ?? '');
 
 /* normalize directory (important for Windows + Linux) */
 $dir = str_replace(['\\', '..'], ['/', ''], $dir);

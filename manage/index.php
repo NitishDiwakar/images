@@ -96,11 +96,11 @@ if ($parent === '.') $parent = '';
 <hr>
 
 <!-- create folder -->
-<form method="post" action="action.php">
-    <input type="hidden" name="action" value="mkdir">
-    <input type="hidden" name="dir" value="<?php echo htmlspecialchars($currentDir); ?>">
-    <input type="text" name="name" placeholder="New folder" required>
-    <button>Create</button>
+<form method="post" action="upload.php" enctype="multipart/form-data">
+    <input type="hidden" name="dir" value="<?php echo urlencode($currentDir); ?>">
+
+    <input type="file" name="files[]" multiple accept="image/*" required>
+    <button>Upload</button>
 </form>
 
 <!-- upload -->
