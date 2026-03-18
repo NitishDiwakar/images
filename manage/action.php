@@ -39,7 +39,7 @@ if ($action === 'delete') {
 }
 
 /* RENAME */
-if ($action === 'rename') {
+/*if ($action === 'rename') {
     $path = $_POST['path'];
     $newname = basename($_POST['newname']);
 
@@ -49,7 +49,32 @@ if ($action === 'rename') {
         $newPath = dirname($full) . '/' . $newname;
         rename($full, $newPath);
     }
+}*/
+// Keep existing extension
+if ($action === 'rename') {
+    $path = $_POST['path'];
+    $newname = basename($_POST['newname']);
+
+    $full = safePath($baseDir, $path);
+
+    if ($full && $newname) {
+
+        if (is_file($full)) {
+            $ext = pathinfo($full, PATHINFO_EXTENSION);
+            $newExt = pathinfo($newname, PATHINFO_EXTENSION);
+
+            // add original extension only if user didn't provide one
+            if (!$newExt && $ext) {
+                $newname .= '.' . $ext;
+            }
+        }
+
+        $newPath = dirname($full) . '/' . $newname;
+        rename($full, $newPath);
+    }
 }
+
+
 
 /* redirect back */
 $redirectDir = $_POST['dir'] ?? dirname($_POST['path'] ?? '');
