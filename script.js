@@ -124,7 +124,7 @@ document.addEventListener('keydown', function(e) {
 });
 
 /* Swipe */
-var startX = 0;
+/*var startX = 0;
 
 document.getElementById('viewer').addEventListener('touchstart', function(e) {
     startX = e.touches[0].clientX;
@@ -135,7 +135,37 @@ document.getElementById('viewer').addEventListener('touchend', function(e) {
 
     if (startX - endX > 50) nextImage();
     if (endX - startX > 50) prevImage();
+});*/
+
+var startX = 0;
+var endX = 0;
+
+var viewer = document.getElementById('viewer');
+
+viewer.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
 });
+
+viewer.addEventListener('touchmove', function(e) {
+    endX = e.touches[0].clientX;
+});
+
+viewer.addEventListener('touchend', function() {
+    var diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+            nextImage();   // swipe left → next
+        } else {
+            prevImage();   // swipe right → prev
+        }
+    }
+
+    // reset
+    startX = 0;
+    endX = 0;
+});
+
 
 /* Arrows */
 document.getElementById('nav-left').onclick = prevImage;
