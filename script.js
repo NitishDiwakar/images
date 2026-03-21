@@ -33,7 +33,8 @@ function loadImages() {
         img.src = images[i];
         img.loading = "lazy";
         // img.dataset.index = i;
-        img.dataset.index = visibleIndex;
+        // img.dataset.index = visibleIndex;
+        img.dataset.index = i;
         visibleIndex++;
         //
         img.onclick = openViewer;
@@ -87,21 +88,7 @@ document.addEventListener('keydown', function(e) {
 /* ✅ TAP NAVIGATION (replaces swipe) */
 var viewer = document.getElementById('viewer');
 
-viewer.addEventListener('click', function(e) {
 
-    var screenWidth = window.innerWidth;
-    var x = e.clientX;
-
-    var leftZone = screenWidth * 0.3;
-    var rightZone = screenWidth * 0.7;
-
-    if (x < leftZone) {
-        prevImage();
-    }
-    else if (x > rightZone) {
-        nextImage();
-    }
-});
 
 /* prevent image click from triggering navigation */
 /*document.getElementById('viewer-img').addEventListener('click', function(e){
