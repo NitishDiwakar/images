@@ -98,8 +98,31 @@ viewer.addEventListener('click', function(e) {
 });
 
 /* prevent image click from triggering navigation */
-document.getElementById('viewer-img').addEventListener('click', function(e){
+/*document.getElementById('viewer-img').addEventListener('click', function(e){
     e.stopPropagation();
+});
+*/
+
+var viewer = document.getElementById('viewer');
+
+viewer.addEventListener('click', function(e) {
+
+    // ignore clicks on close button
+    if (e.target.id === 'close') return;
+
+    var rect = viewer.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var width = rect.width;
+
+    var leftZone = width * 0.3;
+    var rightZone = width * 0.7;
+
+    if (x < leftZone) {
+        prevImage();
+    }
+    else if (x > rightZone) {
+        nextImage();
+    }
 });
 
 /* ARROWS (desktop) */
