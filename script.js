@@ -6,12 +6,15 @@
 
 var loaded = 0;
 var batch = 20;
+var visibleIndex = 0;
 
 /* LOAD IMAGES */
 function loadImages() {
     var gallery = document.getElementById('gallery');
 
     if (loaded === 0) {
+        //
+        visibleIndex = 0;
         folders.forEach(function(folder) {
             var div = document.createElement('div');
             div.className = 'folder';
@@ -29,7 +32,10 @@ function loadImages() {
         var img = document.createElement('img');
         img.src = images[i];
         img.loading = "lazy";
-        img.dataset.index = i;
+        // img.dataset.index = i;
+        img.dataset.index = visibleIndex;
+        visibleIndex++;
+        //
         img.onclick = openViewer;
         gallery.appendChild(img);
     }
