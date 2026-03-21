@@ -6,15 +6,12 @@
 
 var loaded = 0;
 var batch = 20;
-var visibleIndex = 0;
 
 /* LOAD IMAGES */
 function loadImages() {
     var gallery = document.getElementById('gallery');
 
     if (loaded === 0) {
-        //
-        visibleIndex = 0;
         folders.forEach(function(folder) {
             var div = document.createElement('div');
             div.className = 'folder';
@@ -32,11 +29,10 @@ function loadImages() {
         var img = document.createElement('img');
         img.src = images[i];
         img.loading = "lazy";
-        // img.dataset.index = i;
-        // img.dataset.index = visibleIndex;
+
+        // ✅ ALWAYS use real index
         img.dataset.index = i;
-        visibleIndex++;
-        //
+
         img.onclick = openViewer;
         gallery.appendChild(img);
     }
@@ -67,7 +63,7 @@ function openViewer() {
 function showImage() {
     document.getElementById('viewer-img').src = images[current];
 
-    // ✅ preload next & prev (kept as you wanted)
+    // ✅ preload next & prev
     new Image().src = images[(current + 1) % images.length];
     new Image().src = images[(current - 1 + images.length) % images.length];
 }
@@ -85,22 +81,11 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeViewer();
 });
 
-/* ✅ TAP NAVIGATION (replaces swipe) */
-var viewer = document.getElementById('viewer');
-
-
-
-/* prevent image click from triggering navigation */
-/*document.getElementById('viewer-img').addEventListener('click', function(e){
-    e.stopPropagation();
-});
-*/
-
+/* TAP NAVIGATION (clean, single handler) */
 var viewer = document.getElementById('viewer');
 
 viewer.addEventListener('click', function(e) {
 
-    // ignore clicks on close button
     if (e.target.id === 'close') return;
 
     var rect = viewer.getBoundingClientRect();
@@ -118,7 +103,7 @@ viewer.addEventListener('click', function(e) {
     }
 });
 
-/* ARROWS (desktop) */
+/* ARROWS */
 document.getElementById('nav-left').onclick = prevImage;
 document.getElementById('nav-right').onclick = nextImage;
 
@@ -138,7 +123,7 @@ document.getElementById('close').onclick = closeViewer;
 /* INIT */
 loadImages();
 
-/* ensure enough images load on tablet */
+/* FILL SCREEN (tablet fix) */
 setTimeout(function () {
     while (document.documentElement.scrollHeight <= window.innerHeight && loaded < images.length) {
         loadImages();
