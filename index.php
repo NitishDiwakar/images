@@ -11,7 +11,7 @@ $urlBase = 'uploads';
 $currentDir = isset($_GET['dir']) ? $_GET['dir'] : '';
 $dirPath = realpath($baseDir . '/' . $currentDir);
 
-/* सुरक्षा: prevent directory traversal */
+/* Security */
 if ($dirPath === false || strpos($dirPath, realpath($baseDir)) !== 0) {
     $dirPath = realpath($baseDir);
     $currentDir = '';
@@ -19,10 +19,10 @@ if ($dirPath === false || strpos($dirPath, realpath($baseDir)) !== 0) {
 
 $items = scandir($dirPath);
 
-$folders = array();
-$images = array();
+$folders = [];
+$images = [];
 
-$allowed = array('jpg','jpeg','png','gif','webp');
+$allowed = ['jpg','jpeg','png','gif','webp'];
 
 foreach ($items as $item) {
     if ($item === '.' || $item === '..') continue;
@@ -34,21 +34,27 @@ foreach ($items as $item) {
     } else {
         $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
         if (in_array($ext, $allowed)) {
-            $images[] = array(
+            $images[] = [
                 'path' => $urlBase . '/' . ($currentDir ? $currentDir . '/' : '') . $item,
                 'time' => filemtime($fullPath)
-            );
+            ];
         }
     }
 }
 
-/* sort latest images first */
+/*  strict latest first */
 usort($images, function($a, $b) {
-    return $b['time'] - $a['time'];
+    return $b['time'] <=> $a['time'];
 });
 
-$images = array_column($images, 'path');
+/* clean array */
+$images = array_values(array_map(function($x){
+    return $x['path'];
+}, $images));
+
+sort($folders);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,6 +72,7 @@ $images = array_column($images, 'path');
     <button onclick="goBack()">⬅ Back</button>
 </div>
 <?php endif; ?>
+
 <div id="gallery"></div>
 
 <div id="viewer">
@@ -81,7 +88,7 @@ var folders = <?php echo json_encode($folders); ?>;
 var currentDir = "<?php echo $currentDir; ?>";
 </script>
 
-<script src="script.js"></script>
+<script src="script.js?v=final"></script>
 
 </body>
 </html>

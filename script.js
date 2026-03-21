@@ -7,7 +7,7 @@
 var loaded = 0;
 var batch = 20;
 
-/* LOAD IMAGES */
+/* LOAD */
 function loadImages() {
     var gallery = document.getElementById('gallery');
 
@@ -30,7 +30,7 @@ function loadImages() {
         img.src = images[i];
         img.loading = "lazy";
 
-        // ✅ ALWAYS use real index
+        /* correct index mapping */
         img.dataset.index = i;
 
         img.onclick = openViewer;
@@ -40,7 +40,7 @@ function loadImages() {
     loaded += batch;
 }
 
-/* SCROLL LOAD */
+/* SCROLL */
 window.addEventListener('scroll', function() {
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     var windowHeight = window.innerHeight;
@@ -63,7 +63,7 @@ function openViewer() {
 function showImage() {
     document.getElementById('viewer-img').src = images[current];
 
-    // ✅ preload next & prev
+    /* preload */
     new Image().src = images[(current + 1) % images.length];
     new Image().src = images[(current - 1 + images.length) % images.length];
 }
@@ -81,7 +81,7 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeViewer();
 });
 
-/* TAP NAVIGATION (clean, single handler) */
+/* TAP NAVIGATION */
 var viewer = document.getElementById('viewer');
 
 viewer.addEventListener('click', function(e) {
@@ -103,9 +103,21 @@ viewer.addEventListener('click', function(e) {
     }
 });
 
-/* ARROWS */
-document.getElementById('nav-left').onclick = prevImage;
-document.getElementById('nav-right').onclick = nextImage;
+/* BUTTONS */
+// document.getElementById('nav-left').onclick = prevImage;
+// document.getElementById('nav-right').onclick = nextImage;
+
+document.getElementById('nav-left').onclick = function(e) {
+    e.stopPropagation();
+    prevImage();
+};
+
+document.getElementById('nav-right').onclick = function(e) {
+    e.stopPropagation();
+    nextImage();
+};
+
+//
 
 function nextImage() {
     current = (current + 1) % images.length;
@@ -123,7 +135,7 @@ document.getElementById('close').onclick = closeViewer;
 /* INIT */
 loadImages();
 
-/* FILL SCREEN (tablet fix) */
+/* FILL SCREEN */
 setTimeout(function () {
     while (document.documentElement.scrollHeight <= window.innerHeight && loaded < images.length) {
         loadImages();
