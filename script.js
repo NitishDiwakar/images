@@ -1,5 +1,5 @@
 // Author  : Nitish Kumar Diwakar
-// Email   : nitishkumardiwakar@gmail.com
+// Twitter : https://x.com/NitishDiwakar
 // Github  : https://github.com/NitishDiwakar
 // Project : Image Manager
 // Licence : MIT
